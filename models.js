@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
 const uuid = require('uuid');
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
 
 const blogPostSchema = mongoose.Schema({
@@ -11,10 +11,10 @@ const blogPostSchema = mongoose.Schema({
     firstName: {type: String, required: true},
     lastName: {type: String, required: true},
   },
-  created {type: Date, default: Date.now},
+  created: {type: Date, default: Date.now},
 });
 
-blogPostSchema.virtual('authorString').get(function() {
+blogPostSchema.virtual("authorString").get(function() {
   return `${this.author.firstName} ${this.author.lastName}`.trim();
 });
 
@@ -26,8 +26,8 @@ blogPostSchema.methods.serialize = function() {
     author: this.authorString,
     created: this.created
   };
-}
+};
 
-const BlogPost = mongoose.model('BlogPost', blogPostSchema, 'blog_sample');
+const BlogPost = mongoose.model("BlogPost", blogPostSchema, "blog_sample");
 
-module.exports = BlogPost
+module.exports = BlogPost;

@@ -4,14 +4,14 @@ const router = express.Router();
 
 const { BlogPost } = require("./models");
 
-router.get('/post', (req, res) {
+router.get('/post', (req, res) => {
   BlogPost.find()
   .then(post => {
     res.json(post.map(post => post.serialize()))
-  })
+    })
   .catch(err => {
     console.error(err);
-    res.status(500).json({message: 'Internal server error'});
+    res.status(500).json({message: "Internal server error"});
   });
 });
 
@@ -20,7 +20,8 @@ router.get('/post/:id', (req, res) => {
   .findById(req.params.id)
   .then(post => res.json(post.serialize()))
   .catch(err => {
-    res.status(500).json({message: 'something is wrong'});
+    console.error(err);
+    res.status(500).json({message: "Internal server error"});
   });
 });
 
@@ -68,12 +69,14 @@ router.put('/post/:id', (req, res) => {
 
 router.delete('/post/:id', (req, res) => {
   BlogPost.findByIdAndRemove(req.params.id)
-  .then(post => res.status(204).end())
-  .catch(err => res.status(500).json({'internal servor error'}))
+  .then(post => res.sendStatus(204).end())
+  .catch(err => res.status(500).json({message: "Internal server error"}));
 });
 
-router.use('*', function(req, res) {
-  res.status(404).json({message: 'not found'})
+router.use('*', function (req, res) {
+  res.status(404).json({message: 'Not found'});
 });
+
+
 
 module.exports = router;
